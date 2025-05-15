@@ -196,7 +196,7 @@
                 ) ''bcachefs unlock -k session "/dev/disk/by-uuid/${config.uuid}" < "${config.passwordFile}";''}
                 bcachefs mount \
                   -o "${lib.concatStringsSep "," (lib.unique ([ "X-mount.mkdir" ] ++ config.mountOptions))}" \
-                  UUID="${config.uuid}" \
+                  /dev/disk/by-uuid/"${config.uuid}" \
                   "$MNTPOINT";
                 trap 'umount "$MNTPOINT"; rm -rf "$MNTPOINT"; rm -rf "$TEMPDIR";' EXIT;
                 SUBVOL_ABS_PATH="$MNTPOINT/${subvolume.name}";
@@ -242,7 +242,7 @@
                         )
                       )
                     }" \
-                    UUID="${config.uuid}" \
+                    /dev/disk/by-uuid/"${config.uuid}" \
                     "${rootMountPoint}${subvolume.mountpoint}";
                 fi;
               '';
@@ -263,7 +263,7 @@
                   ) ''bcachefs unlock -k session "/dev/disk/by-uuid/${config.uuid}" < "${config.passwordFile}";''}
                   bcachefs mount \
                     -o "${lib.concatStringsSep "," (lib.unique ([ "X-mount.mkdir" ] ++ config.mountOptions))}" \
-                    UUID="${config.uuid}" \
+                    /dev/disk/by-uuid/"${config.uuid}" \
                     "${rootMountPoint}${config.mountpoint}";
                 fi;
               '';
